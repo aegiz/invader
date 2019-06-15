@@ -35,47 +35,43 @@ chrome.extension &&
 				console.log("****** starting the");
 
 				var ImageURL = canvas.toDataURL("image/png");
+				fetch(ImageURL)
+					.then(res => res.blob())
+					.then(blob => {
+						console.log(blob);
+						var form = new FormData();
+						form.append("image", blob, "test.png");
+						form.append("projects", "42");
+						form.append("source", credentials.source);
+						form.append(
+							"source_description",
+							"45.7750843,3.0956606," + credentials.username
+						);
+						var settings = {
+							url: "http://space-invaders.com/api/v1/queries/",
+							data: form,
+							type: "POST",
+							contentType: false,
+							processData: false,
+							cache: false,
+							dataType: "json",
+							headers: {
+								"Accept-Language":
+									"en-NL, nl-NL, fr-FR, vi-VN, en-us;q=0.8",
+								Authorization: credentials.token,
+								"Cache-Control": "no-cache"
+							}
+						};
+
+						$.ajax(settings).done(function(response) {
+							console.log(response);
+						});
+					});
 			};
 			img.src = image;
 		}
 	});
 $(function() {
-	function appendFileAndSubmit() {
-		// Attach file
-		var fileInput = document.getElementById("fileInput").files[0];
-		//Create the FormData and add the file to the FD
-		var form = new FormData();
-		form.append("image", fileInput, "test.png");
-		form.append("projects", "42");
-		form.append("source", credentials.source);
-		form.append(
-			"source_description",
-			"45.7569076,4.8270517," + credentials.username
-		);
-		var settings = {
-			url: "http://space-invaders.com/api/v1/queries/",
-			data: form,
-			type: "POST",
-			contentType: false,
-			processData: false,
-			cache: false,
-			dataType: "json",
-			headers: {
-				"Accept-Language": "en-NL, nl-NL, fr-FR, vi-VN, en-us;q=0.8",
-				Authorization: credentials.token,
-				"Cache-Control": "no-cache"
-			}
-		};
-
-		$.ajax(settings).done(function(response) {
-			console.log(response);
-		});
-	}
-	$("#myAwesomeForm").submit(function(e) {
-		e.preventDefault();
-		appendFileAndSubmit();
-	});
-
 	$("a[href=#save]").click(function() {
 		$("#toolbar").hide();
 		chrome.extension.sendMessage({ action: "capture" });

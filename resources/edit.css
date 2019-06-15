@@ -8,16 +8,6 @@ a {
   text-decoration: none;
 }
 
-form {
-  position: relative;
-  z-index: 99;
-  background: white;
-}
-
-form input {
-  display: block;
-}
-
 #toolbar {
   position: fixed;
   bottom: 0px;
