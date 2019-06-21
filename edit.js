@@ -1,13 +1,19 @@
 var init = true;
+var lat;
+var lng;
+
 chrome.extension &&
-	chrome.extension.onMessage.addListener(function(image) {
+	chrome.extension.onMessage.addListener(function(request) {
 		if (init) {
+			var url = request.url || {};
+			var image = request.image || {};
+			lat = url.split(",")[0].split("@")[1];
+			lng = url.split(",")[1];
 			init = false;
 			document.getElementById("base").style.backgroundImage =
 				"url(" + image + ")";
 			document.getElementById("cropped").style.backgroundImage =
 				"url(" + image + ")";
-			// document.getElementById('popped').style.backgroundImage = 'url('+image+')';
 		} else {
 			// Create an empty canvas element
 			var l = parseInt($("#cropped").css("left"), 10);
@@ -22,6 +28,8 @@ chrome.extension &&
 			// Copy the image contents to the canvas
 			var ctx = canvas.getContext("2d");
 			var img = new Image();
+			console.log("HEELO");
+
 			img.onload = function() {
 				ctx.drawImage(img, l, t, w, h, 0, 0, w, h);
 				$("#final")
@@ -32,7 +40,7 @@ chrome.extension &&
 					});
 
 				$("body").addClass("final");
-				console.log("****** starting the");
+				console.log("****** starting the call");
 
 				var ImageURL = canvas.toDataURL("image/png");
 				fetch(ImageURL)
@@ -45,7 +53,7 @@ chrome.extension &&
 						form.append("source", credentials.source);
 						form.append(
 							"source_description",
-							"45.7750843,3.0956606," + credentials.username
+							lat + "," + lng + "," + credentials.username
 						);
 						var settings = {
 							url: "http://space-invaders.com/api/v1/queries/",
@@ -72,7 +80,7 @@ chrome.extension &&
 		}
 	});
 $(function() {
-	$("a[href=#save]").click(function() {
+	$("a[href=#call]").click(function() {
 		$("#toolbar").hide();
 		chrome.extension.sendMessage({ action: "capture" });
 		return false;

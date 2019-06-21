@@ -11,3 +11,5 @@ TODO:
 -  stop sending the user in another tab
 -  understand why the app crash at first?
 -  general cleaning
+-  set a nice icon for our extension
+-  give a bit of explanation on the UI
