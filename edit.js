@@ -7,6 +7,8 @@ chrome.extension &&
 	chrome.extension.onMessage.addListener(function(request) {
 		image = request.image || {};
 		if (init) {
+			// TODO Need to make sure this exist
+			// $("body").addClass("invalid")
 			lat = request.url.split(",")[0].split("@")[1];
 			lng = request.url.split(",")[1];
 			document.getElementById("base").style.backgroundImage =
@@ -42,6 +44,8 @@ chrome.extension &&
 							"source_description",
 							lat + "," + lng + "," + credentials.username
 						);
+						$("body").removeClass();
+						$("body").addClass("pending");
 						console.log("** Making the call **");
 						console.log(lat + "," + lng + "," + credentials.username);
 						var settings = {
@@ -60,7 +64,15 @@ chrome.extension &&
 							}
 						};
 						$.ajax(settings).done(function(response) {
+							$("body").removeClass("pending");
 							console.log(response);
+							if (response.source.slice(0, 15) === "ALREADY FLASHED") {
+								$("body").addClass("already-flashed");
+							} else if (response.source.slice(0, 9) === "YOU FOUND") {
+								$("body").addClass("valid");
+							} else if (response.source.slice(0, 6) === "MISSED") {
+								$("body").addClass("invalid");
+							}
 						});
 					});
 			};

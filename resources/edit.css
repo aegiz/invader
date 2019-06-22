@@ -3,6 +3,22 @@ body {
   overflow: hidden;
 }
 
+body.pending {
+  border: 5px solid grey;
+}
+
+body.already-flashed {
+  border: 5px solid blue;
+}
+
+body.valid {
+  border: 5px solid green;
+}
+
+body.invalid {
+  border: 5px solid red;
+}
+
 a {
   color: #fff;
   text-decoration: none;
