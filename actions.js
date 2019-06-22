@@ -1,6 +1,6 @@
 var tabid;
 
-// Send to the edit page
+// Send to the edit page capturing the visible part of the current tab + passing the current URL
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.query(
     { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
@@ -26,11 +26,20 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   );
 });
 
-// Send to the last page
+// This time capture only the visible part of the edit page
 chrome.extension.onMessage.addListener(function(e) {
-  chrome.windows.getCurrent(function(win) {
-    chrome.tabs.captureVisibleTab(win.id, { format: "png" }, function(image) {
-      chrome.tabs.sendMessage(tabid, image);
-    });
-  });
+  chrome.tabs.query(
+    { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
+    function(tabs) {
+      chrome.tabs.captureVisibleTab(
+        chrome.windows.WINDOW_ID_CURRENT,
+        { format: "png" },
+        function(image) {
+          chrome.tabs.sendMessage(tabid, {
+            image: image
+          });
+        }
+      );
+    }
+  );
 });

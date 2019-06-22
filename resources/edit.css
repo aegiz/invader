@@ -167,34 +167,6 @@ a {
   color: #fff;
 }
 
-div.final {
+#final {
   display: none;
-}
-body.final {
-  background: #444 url(noise.png);
-}
-body.final div.edit {
-  display: none;
-}
-body.final div.final {
-  display: block;
-}
-
-img#final {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
-}
-
-.instructions {
-  position: absolute;
-  left: 50%;
-  width: 400px;
-  margin-left: -200px;
-  font-size: 16px;
-  text-align: center;
-  bottom: 30px;
-  color: #222;
-  text-shadow: #666 0px 1px;
 }

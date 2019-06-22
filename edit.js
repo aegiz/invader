@@ -1,47 +1,34 @@
-var init = true;
 var lat;
 var lng;
+var image;
+var init = true;
 
 chrome.extension &&
 	chrome.extension.onMessage.addListener(function(request) {
+		image = request.image || {};
 		if (init) {
-			var url = request.url || {};
-			var image = request.image || {};
-			lat = url.split(",")[0].split("@")[1];
-			lng = url.split(",")[1];
-			init = false;
+			lat = request.url.split(",")[0].split("@")[1];
+			lng = request.url.split(",")[1];
 			document.getElementById("base").style.backgroundImage =
 				"url(" + image + ")";
 			document.getElementById("cropped").style.backgroundImage =
 				"url(" + image + ")";
+			init = false;
 		} else {
 			// Create an empty canvas element
 			var l = parseInt($("#cropped").css("left"), 10);
 			var t = parseInt($("#cropped").css("top"), 10);
 			var w = parseInt($("#cropped").css("width"), 10);
 			var h = parseInt($("#cropped").css("height"), 10);
-
-			var canvas = document.createElement("canvas");
+			var canvas = document.getElementById("final");
 			canvas.width = w;
 			canvas.height = h;
-
 			// Copy the image contents to the canvas
 			var ctx = canvas.getContext("2d");
 			var img = new Image();
-			console.log("HEELO");
-
+			img.src = image;
 			img.onload = function() {
 				ctx.drawImage(img, l, t, w, h, 0, 0, w, h);
-				$("#final")
-					.attr("src", canvas.toDataURL("image/png"))
-					.css({
-						marginLeft: -0.5 * w + "px",
-						marginTop: -0.5 * h + "px"
-					});
-
-				$("body").addClass("final");
-				console.log("****** starting the call");
-
 				var ImageURL = canvas.toDataURL("image/png");
 				fetch(ImageURL)
 					.then(res => res.blob())
@@ -55,6 +42,8 @@ chrome.extension &&
 							"source_description",
 							lat + "," + lng + "," + credentials.username
 						);
+						console.log("** Making the call **");
+						console.log(lat + "," + lng + "," + credentials.username);
 						var settings = {
 							url: "http://space-invaders.com/api/v1/queries/",
 							data: form,
@@ -70,21 +59,19 @@ chrome.extension &&
 								"Cache-Control": "no-cache"
 							}
 						};
-
 						$.ajax(settings).done(function(response) {
 							console.log(response);
 						});
 					});
 			};
-			img.src = image;
 		}
 	});
 $(function() {
 	$("a[href=#call]").click(function() {
-		$("#toolbar").hide();
 		chrome.extension.sendMessage({ action: "capture" });
 		return false;
 	});
+
 	$("a[href=#close]").click(function() {
 		chrome.tabs.getCurrent(function(tab) {
 			chrome.tabs.remove(tab.id);
