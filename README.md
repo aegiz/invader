@@ -2,14 +2,16 @@
 
 ## Instructions
 
-Rename the tofill.credentials.js file into credentials.js file.
-Fill this file with your credentials
+1. Rename the `tofill.credentials.js` file into `credentials.js`.
+2. Use a proxy (like [MITM proxy](https://mitmproxy.org)) to inspect the requests that the Flash Invader App is making.
+3. Fill `credentials.js` with your app credentials that are passed in every requests.
+4. Go to this URL chrome://extensions, activate the developer mode and load this unpacked extension.
+
+## Credits:
+
+Most of the code is inspired from the [docshot extension](https://github.com/mapbox/docshot)
 
 TODO:
 
--  pass and parse the coordinates of the google maps
--  stop sending the user in another tab
--  understand why the app crash at first?
 -  general cleaning
--  set a nice icon for our extension
--  give a bit of explanation on the UI
+-  some nice styling

@@ -18,7 +18,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
                 image: image,
                 url: currentUrl
               });
-            }, 200);
+            }, 1000);
           });
         }
       );
