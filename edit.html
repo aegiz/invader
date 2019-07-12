@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Invader edit</title>
-    <link rel="stylesheet" href="resources/reset.css" type="text/css" />
-    <link rel="stylesheet" href="resources/edit.css" type="text/css" />
-  </head>
-  <body>
-    <div class="edit">
-      <div id="base"></div>
-      <div class="image" id="cropped">
-        <span class="mask"></span>
-        <div class="dimensions"></div>
-      </div>
-      <canvas id="final"></canvas>
-      <div id="toolbar">
-        <a href="#call">Done</a>
-        <a class="close" href="#close">Cancel</a>
-      </div>
-    </div>
-    <script type="text/javascript" src="resources/jquery-1.6.2.min.js"></script>
-    <script
-      type="text/javascript"
-      src="resources/jquery-ui-1.8.16.custom.js"
-    ></script>
-    <script type="text/javascript" src="credentials.js"></script>
-    <script type="text/javascript" src="edit.js"></script>
-  </body>
+	<head>
+		<title>Chase!</title>
+		<link rel="stylesheet" href="resources/reset.css" type="text/css" />
+		<link rel="stylesheet" href="resources/edit.css" type="text/css" />
+	</head>
+	<body>
+		<div class="edit">
+			<div class="loader"></div>
+			<div id="base"></div>
+			<div class="image" id="cropped">
+				<span class="points"></span>
+				<p class="helper"></p>
+				<span class="mask"></span>
+				<div class="dimensions"></div>
+			</div>
+			<canvas id="final"></canvas>
+			<div id="toolbar">
+				<a href="#call">Done</a>
+				<a class="close" href="#close">Cancel</a>
+			</div>
+		</div>
+		<script
+			type="text/javascript"
+			src="resources/jquery-1.6.2.min.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="resources/jquery-ui-1.8.16.custom.js"
+		></script>
+		<script type="text/javascript" src="credentials.js"></script>
+		<script type="text/javascript" src="edit.js"></script>
+	</body>
 </html>

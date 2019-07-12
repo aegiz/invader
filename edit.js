@@ -3,19 +3,31 @@ var lng;
 var image;
 var init = true;
 
+var shoot = new Audio(chrome.runtime.getURL("resources/sounds/shoot.mp3"));
+var already = new Audio(chrome.runtime.getURL("resources/sounds/already.mp3"));
+var destroy = new Audio(chrome.runtime.getURL("resources/sounds/destroy.mp3"));
+var die = new Audio(chrome.runtime.getURL("resources/sounds/die.mp3"));
+
 chrome.extension &&
 	chrome.extension.onMessage.addListener(function(request) {
 		image = request.image || {};
 		if (init) {
-			// TODO Need to make sure this exist
-			// $("body").addClass("invalid")
-			lat = request.url.split(",")[0].split("@")[1];
-			lng = request.url.split(",")[1];
 			document.getElementById("base").style.backgroundImage =
 				"url(" + image + ")";
 			document.getElementById("cropped").style.backgroundImage =
 				"url(" + image + ")";
-			init = false;
+
+			lat = request.url.split(",")[0].split("@")[1];
+			lng = request.url.split(",")[1];
+			if (typeof lat === "undefined" || typeof lng === "undefined") {
+				die.play();
+				$(".helper").text("Error: This is not a Google Streetview page");
+			} else {
+				init = false;
+				$(".helper").text(
+					"Position and resize this frame around the invader"
+				);
+			}
 		} else {
 			// Create an empty canvas element
 			var l = parseInt($("#cropped").css("left"), 10);
@@ -44,8 +56,11 @@ chrome.extension &&
 							"source_description",
 							lat + "," + lng + "," + credentials.username
 						);
-						$("body").removeClass();
-						$("body").addClass("pending");
+						$(".loader").show();
+						$(".points")
+							.removeClass()
+							.addClass("points");
+						shoot.play();
 						console.log("** Making the call **");
 						console.log(lat + "," + lng + "," + credentials.username);
 						var settings = {
@@ -64,15 +79,22 @@ chrome.extension &&
 							}
 						};
 						$.ajax(settings).done(function(response) {
-							$("body").removeClass("pending");
 							console.log(response);
+							$(".helper").text(response.source);
 							if (response.source.slice(0, 15) === "ALREADY FLASHED") {
-								$("body").addClass("already-flashed");
+								already.play();
 							} else if (response.source.slice(0, 9) === "YOU FOUND") {
-								$("body").addClass("valid");
-							} else if (response.source.slice(0, 6) === "MISSED") {
-								$("body").addClass("invalid");
+								destroy.play();
+								var points =
+									response.matches[0].matched_visual.metadata[0].value;
+								$(".points").addClass("points--" + points);
+							} else if (
+								response.source.slice(0, 6) === "MISSED" ||
+								response.source.slice(0, 2) === "NO"
+							) {
+								die.play();
 							}
+							$(".loader").hide();
 						});
 					});
 			};

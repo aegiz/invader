@@ -1,188 +1,306 @@
+@font-face {
+	font-family: inv;
+	src: url(font/space_invaders.otf);
+}
+
 body {
-  background: #222 url(noise.png);
-  overflow: hidden;
+	background: #222 url(noise.png);
+	overflow: hidden;
 }
 
-body.pending {
-  border: 5px solid grey;
+.loader {
+	display: none;
+	height: 4px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	background-color: #ff0060;
+}
+.loader:before {
+	display: block;
+	position: absolute;
+	content: "";
+	left: -200px;
+	width: 200px;
+	height: 4px;
+	background-color: #ffef00;
+	animation: loading 2s linear infinite;
 }
 
-body.already-flashed {
-  border: 5px solid blue;
-}
-
-body.valid {
-  border: 5px solid green;
-}
-
-body.invalid {
-  border: 5px solid red;
+@keyframes loading {
+	from {
+		left: -200px;
+		width: 30%;
+	}
+	50% {
+		width: 30%;
+	}
+	70% {
+		width: 70%;
+	}
+	80% {
+		left: 50%;
+	}
+	95% {
+		left: 120%;
+	}
+	to {
+		left: 100%;
+	}
 }
 
 a {
-  color: #fff;
-  text-decoration: none;
+	color: #fff;
+	text-decoration: none;
 }
 
 #toolbar {
-  position: fixed;
-  bottom: 0px;
-  left: 50%;
-  width: 200px;
-  margin-left: -120px;
-  height: 30px;
-  padding: 15px 20px;
-  border-radius: 10px 10px 0px 0px;
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: inset rgba(255, 255, 255, 0.15) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0.5) 0px 0px 10px;
+	position: fixed;
+	bottom: 0px;
+	left: 50%;
+	width: 200px;
+	margin-left: -120px;
+	height: 30px;
+	padding: 15px 20px;
+	border-radius: 10px 10px 0px 0px;
+	background: rgba(0, 0, 0, 0.5);
+	box-shadow: inset rgba(255, 255, 255, 0.15) 0px 0px 0px 1px,
+		rgba(0, 0, 0, 0.5) 0px 0px 10px;
 }
 
 #toolbar a {
-  width: 60px;
-  text-align: center;
-  font-weight: bold;
-  padding: 3px 15px;
-  vertical-align: middle;
-  border-radius: 5px;
-  display: block;
-  float: left;
-  margin-right: 5px;
-  background: #486;
-  box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
-    inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
-    rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #254 0px 3px 0px 1px;
-  text-shadow: rgba(0, 0, 0, 0.5) 0px -1px;
+	width: 60px;
+	text-align: center;
+	font-weight: bold;
+	padding: 3px 15px;
+	vertical-align: middle;
+	border-radius: 5px;
+	display: block;
+	float: left;
+	margin-right: 5px;
+	background: #ffef00;
+	color: #fff;
+	box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
+		inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
+		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #ffef00 0px 3px 0px 1px;
+	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px;
+	transition: all 0.1s;
+}
+#toolbar a:first-child {
+	color: #3a3603;
 }
 
 #toolbar a:hover {
-  background-color: #48a;
-  box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
-    inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
-    rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #257 0px 3px 0px 1px;
+	background-color: #fff9b6;
+	box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
+		inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
+		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #e4cb50 0px 3px 0px 1px;
 }
 
 #toolbar a.close {
-  background: #c24;
-  box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
-    inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
-    rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #813 0px 3px 0px 1px;
-  position: absolute;
-  right: 20px;
-  top: 15px;
+	background: #c24;
+	box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
+		inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
+		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #813 0px 3px 0px 1px;
+	position: absolute;
+	right: 20px;
+	top: 15px;
 }
 
 #toolbar a:active,
 #toolbar a.close:active {
-  background-color: #111;
-  padding: 5px 15px;
-  box-shadow: inset rgba(0, 0, 0, 0.5) 0px 5px 0px,
-    inset rgba(255, 255, 255, 0.1) 0px 10px 10px -5px,
-    inset rgba(0, 0, 0, 0.5) 0px 0px 2px 1px,
-    rgba(255, 255, 255, 0.1) 0px 1px 0px 0px;
-}
-
-#base,
-.mask,
-.image {
-  background-repeat: no-repeat;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  bottom: 0px;
-  right: 0px;
+	background-color: #111;
+	padding: 5px 15px;
+	box-shadow: inset rgba(0, 0, 0, 0.5) 0px 5px 0px,
+		inset rgba(255, 255, 255, 0.1) 0px 10px 10px -5px,
+		inset rgba(0, 0, 0, 0.5) 0px 0px 2px 1px,
+		rgba(255, 255, 255, 0.1) 0px 1px 0px 0px;
 }
 
 .mask {
-  background: rgba(0, 0, 0, 0.1);
+	background: rgba(0, 0, 0, 0.1);
+	background-repeat: no-repeat;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
 }
 
 #base {
-  opacity: 0.25;
-}
-#cropped {
-  z-index: 0;
-}
-#mask {
-  z-index: 1;
-}
-#popped {
-  z-index: 2;
+	opacity: 0.25;
+	background-repeat: no-repeat;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
 }
 
 #cropped {
-  background-position: -20px -20px;
-  top: 20px;
-  left: 20px;
-  width: 400px;
-  height: 300px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 0px 5px;
-  cursor: grab;
+	z-index: 0;
+}
+#mask {
+	z-index: 1;
+}
+#popped {
+	z-index: 2;
+}
+
+#cropped {
+	position: absolute;
+	top: calc(50% - 150px);
+	left: calc(50% - 200px);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	width: 400px;
+	height: 300px;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 0px 5px;
+	cursor: grab;
 }
 
 .image div {
-  opacity: 0;
-  -webkit-transition: opacity 500ms;
+	opacity: 0;
+	transition: opacity 500ms;
 }
 .image div:hover,
 .image:hover div,
 .image.ui-draggable-dragging div,
 .image.ui-resizable-resizing div {
-  opacity: 1;
+	opacity: 1;
+}
+
+.image .helper {
+	position: absolute;
+	top: -30px;
+	color: #fff;
+	width: 100%;
+	text-align: center;
+	font-size: 11px;
+	line-height: 1.3;
+	font-family: "inv", Verdana, sans-serif;
+}
+
+.image .points {
+	position: relative;
+}
+
+.image .points:after {
+	content: "";
+	position: absolute;
+	left: calc(50% - 50px);
+	bottom: 30px;
+	opacity: 0;
+	transition: all 0.3s;
+	left: 0;
+	width: 400px;
+	height: 80px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.image .points--10:after {
+	bottom: 50px;
+	opacity: 1;
+	background: url(points/img_10points.png);
+}
+
+.image .points--20:after {
+	bottom: 50px;
+	opacity: 1;
+	background: url(points/img_20points.png);
+}
+
+.image .points--30:after {
+	bottom: 50px;
+	opacity: 1;
+	background: url(points/img_30points.png);
+}
+
+.image .points--40:after {
+	bottom: 50px;
+	opacity: 1;
+	background: url(points/img_40points.png);
+}
+
+.image .points--50:after {
+	bottom: 50px;
+	opacity: 1;
+	background: url(points/img_50points.png);
+}
+
+.image .points--100:after {
+	bottom: 50px;
+	opacity: 1;
+	background: url(points/img_100points.png);
+}
+
+.image:after {
+	content: "";
+	position: absolute;
+	bottom: -54px;
+	left: calc(50% - 28px);
+	width: 56px;
+	height: 38px;
+	background: url(logo/invader.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 .ui-resizable-handle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 2px;
+	border: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .ui-resizable-s,
 .ui-resizable-se,
 .ui-resizable-sw {
-  bottom: -6px;
+	bottom: -6px;
 }
 .ui-resizable-n,
 .ui-resizable-ne,
 .ui-resizable-nw {
-  top: -6px;
+	top: -6px;
 }
 .ui-resizable-e,
 .ui-resizable-ne,
 .ui-resizable-se {
-  right: -6px;
+	right: -6px;
 }
 .ui-resizable-w,
 .ui-resizable-nw,
 .ui-resizable-sw {
-  left: -6px;
+	left: -6px;
 }
 .ui-resizable-s,
 .ui-resizable-n {
-  left: 50%;
-  margin-left: -6px;
+	left: 50%;
+	margin-left: -6px;
 }
 .ui-resizable-e,
 .ui-resizable-w {
-  top: 50%;
-  margin-top: -6px;
+	top: 50%;
+	margin-top: -6px;
 }
 
 .dimensions {
-  display: block;
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  padding: 0px 5px;
-  font-size: 10px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+	display: block;
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	padding: 0px 5px;
+	font-size: 10px;
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
 }
 
 #final {
-  display: none;
+	display: none;
 }
