@@ -10,8 +10,3 @@
 ## Credits:
 
 Most of the code is inspired from the [docshot extension](https://github.com/mapbox/docshot)
-
-TODO:
-
--  general cleaning
--  some nice styling
