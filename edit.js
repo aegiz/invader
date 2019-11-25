@@ -50,12 +50,9 @@ chrome.extension &&
 						console.log(blob);
 						var form = new FormData();
 						form.append("image", blob, "test.png");
-						form.append("projects", "42");
-						form.append("source", credentials.source);
-						form.append(
-							"source_description",
-							lat + "," + lng + "," + credentials.username
-						);
+						form.append("uid", credentials.token);
+						form.append("latitude", lat);
+						form.append("longitude", lng);
 						$(".loader").show();
 						$(".points")
 							.removeClass()
@@ -64,7 +61,7 @@ chrome.extension &&
 						console.log("** Making the call **");
 						console.log(lat + "," + lng + "," + credentials.username);
 						var settings = {
-							url: "http://space-invaders.com/api/v1/queries/",
+							url: credentials.source,
 							data: form,
 							type: "POST",
 							contentType: false,
@@ -74,23 +71,22 @@ chrome.extension &&
 							headers: {
 								"Accept-Language":
 									"en-NL, nl-NL, fr-FR, vi-VN, en-us;q=0.8",
-								Authorization: credentials.token,
 								"Cache-Control": "no-cache"
 							}
 						};
 						$.ajax(settings).done(function(response) {
 							console.log(response);
-							$(".helper").text(response.source);
-							if (response.source.slice(0, 15) === "ALREADY FLASHED") {
+							$(".helper").text(response.message);
+							if (response.message.slice(0, 15) === "ALREADY FLASHED") {
 								already.play();
-							} else if (response.source.slice(0, 9) === "YOU FOUND") {
+							} else if (response.message.slice(0, 9) === "YOU FOUND") {
 								destroy.play();
-								var points =
-									response.matches[0].matched_visual.metadata[0].value;
-								$(".points").addClass("points--" + points);
+								$(".points").addClass(
+									"points--" + response.invader.point
+								);
 							} else if (
-								response.source.slice(0, 6) === "MISSED" ||
-								response.source.slice(0, 2) === "NO"
+								response.message.slice(0, 6) === "MISSED" ||
+								response.message.slice(0, 2) === "NO"
 							) {
 								die.play();
 							}
