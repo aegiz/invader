@@ -1,4 +1,3 @@
 var credentials = {
-	source: "",
-	token: ""
+	uid: ""
 };

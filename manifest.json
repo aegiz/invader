@@ -16,6 +16,6 @@
     "page": "background.html",
     "persistent": true
   },
-  "permissions": ["activeTab", "tabs", "<all_urls>"],
+  "permissions": ["activeTab", "downloads", "tabs", "<all_urls>"],
   "web_accessible_resources": ["*.mp3"]
 }

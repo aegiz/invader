@@ -2,15 +2,15 @@
 
 ## Instructions
 
-Note that we will assume that you have already setup an account.
+First, to be able use this Chrome extension, you need to retrieve your game user id (uid).
+As explained in this [blog article](http://adrienrahier.com/blog/how-i-chased-space-invaders-17000kms-far-from-home/) this can be done using a Proxy (like [MITM proxy](https://mitmproxy.org)) once you have setup an invader account.
 
-1. Rename the `tofill.credentials.js` file into `credentials.js`.
-2. Use a proxy (like [MITM proxy](https://mitmproxy.org)) to inspect the requests that the Flash Invader App is making.
-3. Fill `credentials.js` with your app credentials that are passed in every requests.
-4. Go to this URL chrome://extensions, activate the developer mode and load this unpacked extension.
+Then, simply do the following:
+
+1. Download the repository content, unzip it, and rename the `tofill.credentials.js` file into `credentials.js`.
+2. Fill `credentials.js` with your user id credential.
+3. Go to this URL chrome://extensions, activate the developer mode and load this unpacked extension.
 
 ## Credits:
 
-Most of the code is inspired from the [docshot extension](https://github.com/mapbox/docshot)
-
-
+The extension's code is inspired from [docshot](https://github.com/mapbox/docshot)

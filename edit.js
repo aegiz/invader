@@ -50,7 +50,7 @@ chrome.extension &&
 						console.log(blob);
 						var form = new FormData();
 						form.append("image", blob, "test.png");
-						form.append("uid", credentials.token);
+						form.append("uid", credentials.uid);
 						form.append("latitude", lat);
 						form.append("longitude", lng);
 						$(".loader").show();
@@ -58,10 +58,9 @@ chrome.extension &&
 							.removeClass()
 							.addClass("points");
 						shoot.play();
-						console.log("** Making the call **");
-						console.log(lat + "," + lng + "," + credentials.username);
+						console.log("** Making the call: ** " + lat + "," + lng);
 						var settings = {
-							url: credentials.source,
+							url: "https://space-invaders.com/api/flash/",
 							data: form,
 							type: "POST",
 							contentType: false,
@@ -84,6 +83,17 @@ chrome.extension &&
 								$(".points").addClass(
 									"points--" + response.invader.point
 								);
+								var blobUrl = URL.createObjectURL(blob);
+								chrome.downloads.download({
+									url: blobUrl,
+									filename:
+										response.invader.name +
+										", " +
+										lat +
+										", " +
+										lng +
+										".png"
+								});
 							} else if (
 								response.message.slice(0, 6) === "MISSED" ||
 								response.message.slice(0, 2) === "NO"
