@@ -58,7 +58,6 @@ a {
 	position: fixed;
 	bottom: 0px;
 	left: 50%;
-	width: 200px;
 	margin-left: -120px;
 	height: 30px;
 	padding: 15px 20px;
@@ -86,8 +85,26 @@ a {
 	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px;
 	transition: all 0.1s;
 }
-#toolbar a:first-child {
+#toolbar a.call {
 	color: #3a3603;
+}
+
+#toolbar a.download {
+	margin-left: 5px;
+	display: none;
+	color: #fff;
+	background: #81cc22;
+	box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
+		inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
+		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #138811 0px 3px 0px 1px;
+}
+
+#toolbar a.close {
+	margin-left: 5px;
+	background: #c24;
+	box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
+		inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
+		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #813 0px 3px 0px 1px;
 }
 
 #toolbar a:hover {
@@ -97,14 +114,17 @@ a {
 		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #e4cb50 0px 3px 0px 1px;
 }
 
-#toolbar a.close {
-	background: #c24;
+#toolbar a.close:hover {
+	background: #d04747;
 	box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
 		inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
-		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #813 0px 3px 0px 1px;
-	position: absolute;
-	right: 20px;
-	top: 15px;
+		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #e45050 0px 3px 0px 1px;
+}
+#toolbar a.download:hover {
+	background: #68b118;
+	box-shadow: inset rgba(255, 255, 255, 0.25) 0px 10px 10px -5px,
+		inset rgba(255, 255, 255, 0.2) 0px 0px 3px 1px,
+		rgba(0, 0, 0, 0.25) 0px 2px 3px 0px, #365d13 0px 3px 0px 1px;
 }
 
 #toolbar a:active,

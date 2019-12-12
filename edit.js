@@ -2,6 +2,8 @@ var lat;
 var lng;
 var image;
 var init = true;
+var blobUrl;
+var response;
 
 var shoot = new Audio(chrome.runtime.getURL("resources/sounds/shoot.mp3"));
 var already = new Audio(chrome.runtime.getURL("resources/sounds/already.mp3"));
@@ -48,6 +50,7 @@ chrome.extension &&
 					.then(res => res.blob())
 					.then(blob => {
 						console.log(blob);
+						blobUrl = URL.createObjectURL(blob);
 						var form = new FormData();
 						form.append("image", blob, "test.png");
 						form.append("uid", credentials.uid);
@@ -73,29 +76,21 @@ chrome.extension &&
 								"Cache-Control": "no-cache"
 							}
 						};
-						$.ajax(settings).done(function(response) {
+						$.ajax(settings).done(function(res) {
+							response = res;
 							console.log(response);
 							$(".helper").text(response.message);
-							if (response.message.slice(0, 15) === "ALREADY FLASHED") {
+							if (response.message.includes("ALREADY FLASHED")) {
 								already.play();
-							} else if (response.message.slice(0, 9) === "YOU FOUND") {
+								$(".download").show();
+							} else if (response.message.includes("YOU FOUND")) {
 								destroy.play();
+								$(".download").show();
 								$(".points").addClass(
 									"points--" + response.invader.point
 								);
-								var blobUrl = URL.createObjectURL(blob);
-								chrome.downloads.download({
-									url: blobUrl,
-									filename:
-										response.invader.name +
-										", " +
-										lat +
-										", " +
-										lng +
-										".png"
-								});
 							} else if (
-								response.message.slice(0, 6) === "MISSED" ||
+								response.message.includes("MISSED") ||
 								response.message.slice(0, 2) === "NO"
 							) {
 								die.play();
@@ -116,6 +111,22 @@ $(function() {
 		chrome.tabs.getCurrent(function(tab) {
 			chrome.tabs.remove(tab.id);
 		});
+		return false;
+	});
+
+	$("a[href=#download]").click(function() {
+		if (response && response.invader) {
+			chrome.downloads.download({
+				url: blobUrl,
+				filename: response.invader.name + ", " + lat + ", " + lng + ".png"
+			});
+		} else if (response && response.message) {
+			chrome.downloads.download({
+				url: blobUrl,
+				filename:
+					response.message.slice(0, 6) + ", " + lat + ", " + lng + ".png"
+			});
+		}
 		return false;
 	});
 
