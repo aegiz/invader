@@ -37,25 +37,26 @@ chrome.extension &&
 			var w = parseInt($("#cropped").css("width"), 10);
 			var h = parseInt($("#cropped").css("height"), 10);
 			var canvas = document.getElementById("final");
-			canvas.width = w;
-			canvas.height = h;
+			canvas.width = w; // TEST put: 512 here
+			canvas.height = h; // TEST put: 512 here
 			// Copy the image contents to the canvas
 			var ctx = canvas.getContext("2d");
 			var img = new Image();
 			img.src = image;
 			img.onload = function() {
 				ctx.drawImage(img, l, t, w, h, 0, 0, w, h);
-				var ImageURL = canvas.toDataURL("image/png");
+				var ImageURL = canvas.toDataURL("image/jpeg");
 				fetch(ImageURL)
 					.then(res => res.blob())
 					.then(blob => {
 						console.log(blob);
 						blobUrl = URL.createObjectURL(blob);
 						var form = new FormData();
-						form.append("image", blob, "test.png");
+						form.append("saved_date", "");
 						form.append("uid", credentials.uid);
-						form.append("latitude", lat);
-						form.append("longitude", lng);
+						form.append("image", blob, "image.jpg");
+						form.append("latitude", lat); // TEST put: 48.8459351321735657 here
+						form.append("longitude", lng); // TEST put: 2.413901983827382349 here
 						$(".loader").show();
 						$(".points")
 							.removeClass()
@@ -71,8 +72,7 @@ chrome.extension &&
 							cache: false,
 							dataType: "json",
 							headers: {
-								"Accept-Language":
-									"en-NL, nl-NL, fr-FR, vi-VN, en-us;q=0.8",
+								"Accept-Language": "en-us",
 								"Cache-Control": "no-cache"
 							}
 						};

@@ -14,3 +14,11 @@ Then, simply do the following:
 ## Credits:
 
 The extension's code is inspired from [docshot](https://github.com/mapbox/docshot)
+
+## Important note:
+
+This extension needs some fixing. It seems like the remote server is not processing the POST request anymore (displays a "No invader around you" message everytime).
+WIP, in the folder MitmProxyFiles.
+What I think is the problem:
+
+-  there are 3 kinds of things which are sent to the remote server: the headers, the fields and the image. I checked the last two params are fine so it mist be the header.
