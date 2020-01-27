@@ -3,6 +3,5 @@ credentials.js
 ./MitmProxyFiles/firebase/functions/node_modules
 ./MitmProxyFiles/heroku/__pycache__
 ./MitmProxyFiles/heroku/node_modules
-./MitmProxyFiles/heroku/upload
-./MitmProxyFiles/heroku/files.json
-./MitmProxyFiles/heroku/fields.json
+files.json
+fields.json
