@@ -28,8 +28,19 @@ Then, simply do the following:
 
 ## Other
 
-Launch the emulator without having to launch Android Studio:
-\$ ~/Library/Android/sdk/tools/emulator -avd Nexus_S_API_23`
+### Android Emulator
+
+To launch the emulator without having to launch Android Studio:
+\$ ~/Library/Android/sdk/tools/emulator -avd Nexus_S_API_23
+
+### Mapstr and Paris Invasion
+
+I made a Node.js script to scrap the data from the Flickr Paris Group.
+Launch command:
+\$ node invader.js
+It output a clean JSON or CSV of the locations.
+To load it in Mapstr, save the csv in the iPhone's file and then click open with ... Mapstr.
+Enjoy!
 
 ## Credits:
 
