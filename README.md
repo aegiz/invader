@@ -1,7 +1,8 @@
 # Invader Chrome extension
 
-This project is based on a Man-In-The-Middle breach that I found on the [FlashInvader app](https://play.google.com/store/apps/details?id=com.ltu.flashInvader&utm_source=www.apk4fun.com).
-Rather than using this breach at my advantage I coded a Chrome extension that exploits this breach to make the game playable directly in your browser.
+This project relies on a man-in-the-middle breach that I found on the [FlashInvader app](https://play.google.com/store/apps/details?id=com.ltu.flashInvader&utm_source=www.apk4fun.com).
+
+Rather than using this to my advantage I coded a Chrome extension that exploits this vulnerability to make the game playable directly in your Chromes / Google Street View.
 
 ## Important note
 
