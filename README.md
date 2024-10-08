@@ -19,7 +19,7 @@ Anyway, I had a lot of fun making this. Thank you for the people who encouraged 
 ## (Legacy) Instructions
 
 First, to be able use this Chrome extension, you need to retrieve your game user id (uid).
-As explained in this [blog article](https://medium.com/@adrienrahier/how-i-chased-space-invaders-17000kms-far-from-home-754efc434ac8) this can be done using a Proxy (like [MITM proxy](https://mitmproxy.org)) once you have setup an invader account.
+As explained in this [blog article](https://adrienrahier.com/Remote-FlashInvader-00636c4535174f26929ce6886477f8a0) this can be done using a Proxy (like [MITM proxy](https://mitmproxy.org)) once you have setup an invader account.
 
 Then, simply do the following:
 
